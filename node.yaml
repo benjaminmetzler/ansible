@@ -36,5 +36,5 @@
         path: /etc/netplan/50-cloud-init.yaml
         state: absent 
 
-    - name: Reboot (via reboot to avoid waiting for coming back up)
-      shell: shutdown -r 10
+    - name: Reboot (via shutdown to avoid waiting for coming back up)
+      shell: "(sleep 2 && shutdown -r now) &"
