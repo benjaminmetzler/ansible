@@ -37,4 +37,8 @@
         state: absent 
 
     - name: Reboot (via shutdown to avoid waiting for coming back up)
-      shell: "(sleep 2 && shutdown -r now) &"
+      shell: /usr/bin/sleep 5 && /usr/sbin/shutdown -r now
+      async: 1
+      poll: 0
+      become: true
+      ignore_errors: true
