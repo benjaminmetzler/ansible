@@ -1,5 +1,5 @@
 # Create new node on the network
 
 ```
-ansible-playbook -i <MACHINE_IP>, node.yaml --extra-vars "node_number=<NODE_NUMBER>"
+ansible-playbook -i <MACHINE_IP>, node.yaml --extra-vars "network_name=<NETWORK_NAME> network_ip=<NETWORK_IP> inteface=<NETWORK_INTERFACE>"
 ```
