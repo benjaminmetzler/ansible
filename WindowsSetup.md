@@ -90,3 +90,30 @@ Winrs
 
 ## Connecting to a Windows Client
 
+> **_NOTE:_**  Ansible on a macos server gives an error about not finding pywinrm.  This is still under investigation.  The below was tested on an Ubuntu 20.04 ansible server.
+
+#### Install PyWinRM (if not installed)
+```bash
+pip install "pywinrm>=0.3.0"
+```
+
+#### Create a host file
+For Linux systems, you can use the ansible-playbook `-i` option with an IP address, but for Windows clients this gives an ssh error (still looking into why).  To get around this, pass in a hosts file with either the IP address or the hostname.
+
+./windows_hosts
+```yaml
+[windows]
+<WINDOWS_HOSTNAME_OR_IP>
+```
+
+#### Kick off ansible-playbook
+
+```bash
+ansible-playbook -i windows_hosts configure_windows.yaml
+```
+
+The contents of the playbook can contain the variables (see configure_windows.yaml) but ideally these would be abstracted into a group_vars file for Windows.
+
+
+
+
