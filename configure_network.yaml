@@ -30,6 +30,12 @@
         path: /etc/netplan/01-netcfg.yaml
         regexp: 'REPLACE_ME'
         replace: "{{ network_ip }}"
+        
+    - name: Update new network configuration ip address
+      replace:
+        path: /etc/netplan/01-netcfg.yaml
+        regexp: 'INTERFACE'
+        replace: "{{ interface }}"
 
     - name: Remove cloud-init yaml file
       file:
