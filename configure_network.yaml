@@ -11,7 +11,7 @@
 
     - name: Disable Cloud Init
       template:
-        src: ./99-disable-config.cfg.template
+        src: ./templates/99-disable-config.cfg.template
         dest: /etc/cloud/cloud.cfg.d/99-disable-config.cfg
         owner: root
         group: root
@@ -19,7 +19,7 @@
 
     - name: Copy new network configuration
       template:
-        src: ./01-netcfg.yaml.template
+        src: ./templates/01-netcfg.yaml.template
         dest: /etc/netplan/01-netcfg.yaml
         owner: root
         group: root
