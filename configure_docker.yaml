@@ -1,0 +1,34 @@
+---
+- hosts: all
+  remote_user: ubuntu
+  become: true
+  become_user: root
+
+  tasks: 
+    - name: Install docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Enable cgroups 1 (add /etc/docker/daemon.json)
+      template:
+        src: ./templates/etc_docker_daemon.json.template
+        dest: /etc/docker/daemon.json
+        owner: root
+        group: root
+        mode: '0644'
+    
+    - name: Enable cgroups 2 (update /boot/firmware/cmdline.txt)
+      blockinfile:
+        src: ./templates/boot_firmware_cmdline.txt.template
+        dest: /boot/firmware/cmdline.txt
+        owner: root
+        group: root
+        mode: '0755'
+    
+    - name: Reboot (via shutdown to avoid waiting for coming back up)
+      shell: /usr/bin/sleep 5 && /usr/sbin/shutdown -r now
+      async: 1
+      poll: 0
+      become: true
+      ignore_errors: true        
