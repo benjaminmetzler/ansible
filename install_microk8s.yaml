@@ -1,0 +1,25 @@
+---
+    - hosts: all
+      remote_user: ubuntu
+      become: true
+      become_user: root
+
+      tasks:
+        - name: Install microk8s packages
+          snap:
+            name: microk8s
+            classic: yes
+
+        - name: Enable cgroups (update /boot/firmware/cmdline.txt)
+          template:
+            src: templates/boot_firmware_cmdline.txt.micro8ks.template
+            dest: /boot/firmware/cmdline.txt
+            owner: root
+            group: root
+            mode: '0755'
+
+        - name: enable micro8ks dns and storage
+          command: microk8s.enable dns storage
+
+        - name: Reboot
+          reboot:

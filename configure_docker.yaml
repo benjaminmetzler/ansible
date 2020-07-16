@@ -4,7 +4,7 @@
   become: true
   become_user: root
 
-  tasks: 
+  tasks:
     - name: Install docker
       apt:
         name: docker.io
@@ -17,18 +17,30 @@
         owner: root
         group: root
         mode: '0644'
-    
+
     - name: Enable cgroups 2 (update /boot/firmware/cmdline.txt)
-      blockinfile:
-        src: ./templates/boot_firmware_cmdline.txt.template
+      template:
+        src: templates/boot_firmware_cmdline.txt.template
         dest: /boot/firmware/cmdline.txt
         owner: root
         group: root
         mode: '0755'
+
+    - name: Allow iptables to see bridged traffic
+      template:
+        src: templates/etc_sysctl.d_k8s.conf.template
+        dest: /etc/sysctl.d/k8s.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable docker service
+      systemd:
+        name: docker.service
+        enabled: yes
+        state: started
+          
+    # - name: Reboot
+    #   reboot:
     
-    - name: Reboot (via shutdown to avoid waiting for coming back up)
-      shell: /usr/bin/sleep 5 && /usr/sbin/shutdown -r now
-      async: 1
-      poll: 0
-      become: true
-      ignore_errors: true        
+
