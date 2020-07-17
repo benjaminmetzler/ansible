@@ -18,8 +18,12 @@
             group: root
             mode: '0755'
 
-        - name: enable micro8ks dns and storage
-          command: microk8s.enable dns storage
+        - name: add ubuntu to microk8s group
+          command: usermod -a -G microk8s ubuntu
 
         - name: Reboot
           reboot:
+
+        - name: enable micro8ks dns and storage
+          command: microk8s.enable dns storage
+

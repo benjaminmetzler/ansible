@@ -32,6 +32,8 @@
         
     - name: Disable apt updates for kubernetes packages 
       command: apt-mark hold kubelet kubeadm kubectl
+      
+      
           
     # - name: Reboot
     #   reboot:
