@@ -1,0 +1,49 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+
+  tasks: 
+    - name: Update the host name
+      hostname:
+        name: "{{ network_name }}"
+
+    - name: Update apt cache
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+    - name: Upgrade all apt packages
+      apt: upgrade=dist force_apt_get=yes
+
+    - name: Install docker pre-req
+      apt: 
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg-agent
+          - software-properties-common
+        state: present
+    
+    - name: Download docker apt key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+
+    - name: Add docker to apt list
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+  
+    - name: Update docker-ce apt 
+      apt: update_cache=yes name=docker-ce state=latest
+
+    - name: Install docker
+      apt: 
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
+
+    - name: Reboot
+      reboot:
+  

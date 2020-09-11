@@ -1,0 +1,6 @@
+10.0.0.136 network_name=kube-controller
+10.0.0.137 network_name=kube-node-01 
+10.0.0.139 network_name=kube-node-02 
+10.0.0.140 network_name=kube-node-03 
+10.0.0.141 network_name=kube-node-04 
+10.0.0.142 network_name=kube-node-05 
